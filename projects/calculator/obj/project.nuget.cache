@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "6/4nmjUvMj1YvaRi7hoe3gUs9yD/QWmikyf+HZ4fm6VK8vaewrtdRPXmPZlBkkn9m75cLkr/U4eD+umgcFEpLQ==",
+  "success": true,
+  "projectFilePath": "/home/manuel/fsharp/projects/calculator/calculator.fsproj",
+  "expectedPackageFiles": [
+    "/home/manuel/.nuget/packages/fsharp.core/8.0.102/fsharp.core.8.0.102.nupkg.sha512"
+  ],
+  "logs": []
+}

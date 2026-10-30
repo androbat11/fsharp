@@ -4,10 +4,23 @@
 <h1>F# Glossary</h1><p class="meta">Grows with each lesson.</p>
 <h2>Lesson 1</h2>
 <dl>
+<dt><code>dotnet fsi</code></dt><dd>F# Interactive, a REPL. End input with <code>;;</code> to run it.</dd>
+<dt><code>//</code></dt><dd>Line comment.</dd>
+<dt><code>=</code> and <code>%</code></dt><dd>In <code>let</code>, "is defined as"; elsewhere, equality. <code>%</code> is remainder.</dd>
 <dt><code>let</code></dt><dd>Binds a name to a value or function. The binding is immutable.</dd>
 <dt>Expression</dt><dd>Code that produces a value. F# code is almost all expressions; the last one in a function is its result.</dd>
 <dt>Type inference</dt><dd>The compiler works out types without annotations.</dd>
 <dt>Partial application</dt><dd>Supplying fewer arguments than a function takes, giving back a new function (<code>add 10</code>).</dd>
 <dt>Pipeline <code>|&gt;</code></dt><dd><code>x |&gt; f</code> is <code>f x</code>, written so data reads left to right.</dd>
 <dt>Lambda <code>fun x -&gt; ...</code></dt><dd>An anonymous inline function.</dd>
-</dl></body></html>
+</dl><h2>Lesson 2</h2>
+<dl>
+<dt><code>type</code></dt><dd>Declares a new type.</dd>
+<dt>Record</dt><dd>A named bundle of fields: <code>{ Name: string; Age: int }</code>. All fields exist at once. Immutable.</dd>
+<dt><code>{ r with F = v }</code></dt><dd>Copy of record <code>r</code> with field <code>F</code> changed.</dd>
+<dt>Discriminated union</dt><dd>A value that is exactly one of several cases, each optionally carrying data: <code>| Cash | Card of string</code>.</dd>
+<dt><code>match ... with</code></dt><dd>Tests a value against patterns top to bottom; returns the first matching branch.</dd>
+<dt><code>_</code> (wildcard)</dt><dd>Matches anything, ignores it.</dd>
+<dt>Incomplete match (FS0025)</dt><dd>Compiler warning that a <code>match</code> misses a case.</dd>
+</dl>
+</body></html>

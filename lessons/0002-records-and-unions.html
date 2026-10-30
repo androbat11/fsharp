@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 2: Records and unions</title>
+<link rel="stylesheet" href="../assets/style.css"></head><body>
+<h1>Records and unions</h1>
+<p class="meta">Lesson 2 · about 35 minutes · Mission: model business domains with types · builds on <a href="0001-reading-pipelines.html">Lesson 1</a></p>
+
+<h2>The win</h2>
+<p>You can read a <code>type</code> declaration in F# and tell whether it means "all of these fields" (a record) or "one of these cases" (a union). You can also write a <code>match</code> over a union.</p>
+
+<h2>1. Records: a named bundle of fields</h2>
+<p>In Python you might pass a dict or a class instance around. An F# <em>record</em> is closer to a dataclass: named fields, each with a type. See the <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/records">records reference</a>.</p>
+<pre>type Customer = { Name: string; Age: int }
+
+let ann = { Name = "Ann"; Age = 30 }
+ann.Name        // "Ann"</pre>
+<p>Reading it: <code>type</code> declares a new type. <code>Name: string</code> means "a field called Name holding a string". When you build a value, the compiler matches the field names to the <code>Customer</code> type, so you don't write <code>Customer(...)</code>.</p>
+<p>Records are immutable (lesson 1). To "change" one, you copy it with <code>with</code>:</p>
+<pre>let older = { ann with Age = 31 }
+// ann.Age is still 30; older.Age is 31</pre>
+
+<div class="quiz" data-answer="0">
+<p><strong>Predict:</strong> after <code>let older = { ann with Age = 31 }</code>, what is <code>ann.Age</code>?</p>
+<button>Stays at 30</button><button>Turns into 31</button><button>Raises an error</button><button>Is now unset</button>
+<div class="why">Correct. <code>with</code> builds a new record and leaves the original alone.</div>
+</div>
+
+<h2>2. Unions: one of several cases</h2>
+<p>A <em>discriminated union</em> (usually just "union") says a value is exactly one of a fixed list of cases. Each case can carry its own data. Reference: <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/discriminated-unions">discriminated unions</a>.</p>
+<pre>type PaymentMethod =
+    | Cash
+    | Card of number: string
+    | Transfer of bank: string * account: string</pre>
+<p>Each line starting with <code>|</code> is a case. <code>Cash</code> carries nothing. <code>Card of number: string</code> carries one string. <code>*</code> here separates two pieces of data (it is not multiplication). In Python you'd probably use a string like <code>"cash"</code> plus optional fields and hope nobody mixes them up. Here a <code>Card</code> can't accidentally have a bank.</p>
+<pre>let pay = Card "1234567812345678"</pre>
+
+<div class="quiz" data-answer="0">
+<p><strong>Choose:</strong> a shape is either a Circle or a Square. Which F# construct models that?</p>
+<button>Union: one of several</button><button>Record: all fields at once</button><button>Tuple: two unnamed items</button><button>List: many equal items</button>
+<div class="why">Correct. "Either/or" is a union. "Both/and" (a customer has a name and an age) is a record.</div>
+</div>
+
+<h2>3. <code>match</code>: take a union apart</h2>
+<pre>let describe payment =
+    match payment with
+    | Cash -&gt; "paid in cash"
+    | Card number -&gt; "card ending " + number.Substring(number.Length - 4)
+    | Transfer (bank, _) -&gt; "transfer via " + bank</pre>
+<p><code>match ... with</code> tests the value against each pattern, top to bottom, and returns the result of the first that fits. A pattern like <code>Card number</code> also names the data inside the case so you can use it. <code>_</code> means "there's something here, I don't care what". This is like a much stricter <code>if/elif</code> chain (<a href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/pattern-matching">pattern matching</a>).</p>
+<p>I ran these in <code>dotnet fsi</code>: <code>describe Cash</code> gives <code>"paid in cash"</code>, and <code>describe (Transfer ("BHD", "999"))</code> gives <code>"transfer via BHD"</code>.</p>
+
+<div class="quiz" data-answer="0">
+<p><strong>Predict:</strong> what does <code>describe (Transfer ("BHD", "999"))</code> return?</p>
+<button>transfer via BHD</button><button>transfer via 999</button><button>paid in cash now</button><button>card ending BHD</button>
+<div class="why">Correct. The pattern <code>Transfer (bank, _)</code> binds <code>bank</code> to "BHD" and ignores the account.</div>
+</div>
+
+<h2>4. Why this matters: the compiler checks every case</h2>
+<p>If you leave a case out, F# warns you. I tried a match with only <code>Cash</code> and <code>Card _</code> and got:</p>
+<pre>warning FS0025: Incomplete pattern matches on this expression.
+For example, the value 'Transfer (_, _)' may indicate a case not covered</pre>
+<p>Now add a new payment type to the union and the compiler points at every <code>match</code> that needs updating. This is the main reason teams use unions to model business rules.</p>
+
+<div class="quiz" data-answer="0">
+<p><strong>Recall:</strong> what happens when a <code>match</code> forgets one union case?</p>
+<button>A compile-time warning</button><button>A silent null result</button><button>An immediate crash now</button><button>Nothing at all here</button>
+<div class="why">Correct. You find out while compiling, before the code runs.</div>
+</div>
+
+<h2>Practice: code challenges</h2>
+<p>Reading isn't enough; you have to write this from memory. Open <code>exercises/lesson-2/challenges.fsx</code> in your editor. It has five challenges (record copy, your own union, match, records plus pipeline, and extending a union). Run it from that folder:</p>
+<pre>cd exercises/lesson-2
+dotnet fsi challenges.fsx</pre>
+<p>Each challenge has a <code>failwith "TODO"</code> to replace. The output prints PASS or FAIL for each check, so you get feedback on every run. Challenges 2 and 5 have commented-out checks at the bottom: uncomment them when you're ready. If you're stuck, ask me for a hint instead of looking up the answer.</p>
+
+<h2>Reference and next</h2>
+<p>New terms are in the <a href="../reference/glossary.html">glossary</a>. Next lesson idea: using the compiler to make invalid states unrepresentable, and reading a real file from your codebase.</p>
+<p><strong>Primary source:</strong> <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/tour">A tour of F#</a>, the sections on records and discriminated unions. For depth on modeling, Scott Wlaschin's <a href="https://fsharpforfunandprofit.com/">F# for Fun and Profit</a>.</p>
+<p class="callout">Anything unclear? Ask me. Paste a <code>type</code> from your work code and I'll tell you whether it's a record or a union and what it models.</p>
+<script src="../assets/quiz.js"></script>
+</body></html>

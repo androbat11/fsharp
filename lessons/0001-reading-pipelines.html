@@ -3,10 +3,22 @@
 <title>Lesson 1: Reading an F# pipeline</title>
 <link rel="stylesheet" href="../assets/style.css"></head><body>
 <h1>Reading an F# pipeline</h1>
-<p class="meta">Lesson 1 · about 30 minutes · Mission: read your team's F# code</p>
+<p class="meta">Lesson 1 · no prior F# assumed · about 30 minutes · Mission: read your team's F# code</p>
 
 <h2>The win</h2>
 <p>By the end you can look at a typical F# function built from <code>let</code> and <code>|&gt;</code> and say what it returns, without running it.</p>
+
+<h2>0. Run F# first (5 minutes)</h2>
+<p>You don't need a project to start. In a terminal, type <code>dotnet fsi</code>. This opens F# Interactive, a prompt like Python's REPL (<a href="https://learn.microsoft.com/en-us/dotnet/fsharp/tools/fsharp-interactive/">docs</a>). Type this and press Enter:</p>
+<pre>printfn "Hello from F#"
+;;</pre>
+<p>The <code>;;</code> tells the prompt "run it now". Leave with <code>#quit;;</code>. Everything below can be pasted in there.</p>
+<p>Three things to know before reading code:</p>
+<ul>
+<li><code>//</code> starts a comment (like <code>#</code> in Python).</li>
+<li>Indentation matters, as in Python. Use spaces, not tabs.</li>
+<li><code>=</code> means "is defined as" in a <code>let</code>, and "equals" when comparing (<code>n % 2 = 0</code> asks "is the remainder 0?"). <code>%</code> is the remainder operator.</li>
+</ul>
 
 <h2>1. <code>let</code> binds a name, and the value never changes</h2>
 <p>In Python, <code>x = 5</code> can be followed by <code>x = 6</code>. In F#, <code>let x = 5</code> gives <code>x</code> a value for good. There are no statements; everything is an expression that produces a value. See the <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/tour">tour of F#</a>.</p>
