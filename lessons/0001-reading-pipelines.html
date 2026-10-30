@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 1: Reading an F# pipeline</title>
+<link rel="stylesheet" href="../assets/style.css"></head><body>
+<h1>Reading an F# pipeline</h1>
+<p class="meta">Lesson 1 · about 30 minutes · Mission: read your team's F# code</p>
+
+<h2>The win</h2>
+<p>By the end you can look at a typical F# function built from <code>let</code> and <code>|&gt;</code> and say what it returns, without running it.</p>
+
+<h2>1. <code>let</code> binds a name, and the value never changes</h2>
+<p>In Python, <code>x = 5</code> can be followed by <code>x = 6</code>. In F#, <code>let x = 5</code> gives <code>x</code> a value for good. There are no statements; everything is an expression that produces a value. See the <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/tour">tour of F#</a>.</p>
+<pre>let add x y = x + y     // a function of two arguments
+let double n = n * 2</pre>
+<p>No <code>def</code>, no <code>return</code>, no parentheses or commas. The last expression is the result. Types are inferred: the compiler knows <code>add</code> works on numbers even though you never wrote that.</p>
+
+<h2>2. Calling a function is just a space</h2>
+<pre>add 3 4        // 7</pre>
+<p>Giving a function fewer arguments than it needs gives back a new function (<em>partial application</em>):</p>
+<pre>let addTen = add 10
+addTen 5       // 15</pre>
+
+<div class="quiz" data-answer="0">
+<p><strong>Recall:</strong> with the definitions above, what is <code>addTen 5</code>?</p>
+<button>15</button><button>50</button><button>20</button><button>25</button>
+<div class="why">Correct. <code>add 10</code> waits for its second argument: 10 + 5.</div>
+</div>
+
+<h2>3. The pipeline <code>|&gt;</code></h2>
+<p><code>x |&gt; f</code> means "pass <code>x</code> to <code>f</code>". It lets you read data flowing top to bottom, like a shell pipe or a method chain in JS.</p>
+<pre>let result =
+    [1; 2; 3; 4; 5; 6]
+    |&gt; List.filter (fun n -&gt; n % 2 = 0)
+    |&gt; List.map double
+    |&gt; List.sum</pre>
+<p>Read it as steps: start with the list, keep the evens, double each, add them up. <code>fun n -&gt; ...</code> is an inline lambda, like <code>lambda n: ...</code>. Lists use <code>;</code> between items. <code>List.filter</code>, <code>List.map</code> and <code>List.sum</code> come from the <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/lists">List module</a>.</p>
+
+<div class="quiz" data-answer="2">
+<p><strong>Recall:</strong> what does <code>x |&gt; f</code> mean?</p>
+<button>Assign the result of f to x</button><button>Copy f onto x as a method</button><button>Pass x into f as its input</button><button>Compare x and f to test equality</button>
+<div class="why">Correct. The pipe just flips the order: <code>f x</code> becomes <code>x |&gt; f</code>.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+<p><strong>Predict:</strong> what does the pipeline <code>result</code> above evaluate to?</p>
+<button>12</button><button>24</button><button>48</button><button>36</button>
+<div class="why">Correct. Evens: 2, 4, 6. Doubled: 4, 8, 12. Sum: 24.</div>
+</div>
+
+<h2>Try it yourself</h2>
+<p>Run <code>dotnet fsi</code>, paste the code, and end each statement with <code>;;</code>. Then change the filter to keep numbers greater than 3 and predict the result before you run it.</p>
+
+<h2>Reference and next</h2>
+<p>Terms from this lesson are in the <a href="../reference/glossary.html">glossary</a>. Next lesson: records and discriminated unions.</p>
+<p><strong>Primary source:</strong> <a href="https://learn.microsoft.com/en-us/dotnet/fsharp/tour">A tour of F#</a> (Microsoft Learn).</p>
+<p class="callout">Anything unclear? Ask your teacher (me) any follow-up question. Paste a real snippet from your work codebase and I'll walk through it with you.</p>
+<script src="../assets/quiz.js"></script>
+</body></html>

@@ -1,0 +1,17 @@
+:root { --bg:#fdfcf8; --fg:#1d1d1b; --muted:#6b6a63; --accent:#2a5db0; --ok:#1f7a3d; --bad:#b3261e; --code:#f1efe6; }
+@media (prefers-color-scheme: dark) { :root { --bg:#17181a; --fg:#e8e6df; --muted:#9a988f; --accent:#7fa8ee; --ok:#5fcf86; --bad:#f2837c; --code:#222428; } }
+body { background:var(--bg); color:var(--fg); font:18px/1.6 Georgia, "Iowan Old Style", serif; max-width:42rem; margin:3rem auto; padding:0 1.2rem; }
+h1 { font-size:2rem; line-height:1.2; margin-bottom:.2rem; }
+h2 { font-size:1.2rem; margin-top:2.2rem; border-bottom:1px solid var(--muted); padding-bottom:.2rem; }
+.meta { color:var(--muted); font-size:.9rem; }
+pre, code { font-family:"JetBrains Mono", Menlo, Consolas, monospace; font-size:.85rem; background:var(--code); }
+code { padding:.1em .3em; border-radius:3px; }
+pre { padding:.9rem 1rem; overflow-x:auto; border-radius:4px; line-height:1.5; }
+a { color:var(--accent); }
+.callout { border-left:3px solid var(--accent); padding:.1rem 1rem; margin:1.2rem 0; color:var(--muted); }
+.quiz { margin:1.5rem 0; padding:1rem; border:1px solid var(--muted); border-radius:4px; }
+.quiz button { display:block; width:100%; text-align:left; margin:.4rem 0; padding:.5rem .8rem; font:inherit; font-size:.95rem; background:transparent; color:var(--fg); border:1px solid var(--muted); border-radius:4px; cursor:pointer; }
+.quiz button:hover { border-color:var(--accent); }
+.quiz button.ok { border-color:var(--ok); color:var(--ok); }
+.quiz button.bad { border-color:var(--bad); color:var(--bad); }
+.quiz .why { display:none; margin-top:.6rem; font-size:.9rem; color:var(--muted); }
