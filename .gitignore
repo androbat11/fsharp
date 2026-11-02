@@ -1,0 +1,25 @@
+# Build output
+bin/
+obj/
+out/
+publish/
+
+# NuGet
+*.nupkg
+packages/
+
+# F# / Ionide / Fable
+.ionide/
+.fake/
+paket-files/
+*.fsx.lock
+
+# IDE / editor
+.vs/
+.idea/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
