@@ -6,8 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Domain"/>
-    <Compile Include="Domain"/>
+    <Compile Include="Domain/types/Token.fs" />
+    <Compile Include="Domain/types/Expressions.fs" />
+    <Compile Include="Domain/Tokenizer.fs" />
+    <Compile Include="Domain/AbstractTree.fs" />
+    <Compile Include="Domain/Evaluator.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
